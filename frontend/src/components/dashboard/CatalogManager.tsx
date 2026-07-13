@@ -46,7 +46,7 @@ export default function CatalogManager() {
 
   const fetchCategories = async () => {
     try {
-      const response = await fetch("http://localhost:3000/api/categories");
+      const response = await fetch(`${import.meta.env.VITE_API_URL || "http://localhost:3000"}/api/categories`);
       const data = await response.json();
       setCategories(data);
     } catch (error) {
@@ -56,7 +56,7 @@ export default function CatalogManager() {
 
   const fetchServices = async () => {
     try {
-      const response = await fetch("http://localhost:3000/api/services");
+      const response = await fetch(`${import.meta.env.VITE_API_URL || "http://localhost:3000"}/api/services`);
       const data = await response.json();
       setServices(data);
     } catch (error) {
@@ -89,7 +89,7 @@ export default function CatalogManager() {
     if (!window.confirm("¿Estás seguro de que querés eliminar este servicio de forma permanente?")) return;
     
     try {
-      const response = await fetch(`http://localhost:3000/api/services/${id}`, {
+      const response = await fetch(`${import.meta.env.VITE_API_URL || `${import.meta.env.VITE_API_URL || "http://localhost:3000"}`}/api/services/${id}`, {
         method: "DELETE",
       });
 
@@ -120,8 +120,8 @@ export default function CatalogManager() {
 
     const method = editingService ? "PUT" : "POST";
     const url = editingService 
-      ? `http://localhost:3000/api/services/${editingService.id}`
-      : "http://localhost:3000/api/services";
+      ? `${import.meta.env.VITE_API_URL || `${import.meta.env.VITE_API_URL || "http://localhost:3000"}`}/api/services/${editingService.id}`
+      : `${import.meta.env.VITE_API_URL || "http://localhost:3000"}/api/services`;
 
     try {
       const response = await fetch(url, {

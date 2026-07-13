@@ -53,8 +53,8 @@ export default function Booking() {
     const fetchServicesAndAddons = async () => {
       try {
         const [servRes, addRes] = await Promise.all([
-          fetch("http://localhost:3000/api/services"),
-          fetch("http://localhost:3000/api/addons")
+          fetch(`${import.meta.env.VITE_API_URL || "http://localhost:3000"}/api/services`),
+          fetch(`${import.meta.env.VITE_API_URL || "http://localhost:3000"}/api/addons`)
         ]);
         
         if (servRes.ok) {
@@ -91,7 +91,7 @@ export default function Booking() {
       const fetchAvailability = async () => {
         setIsLoadingTimes(true);
         try {
-          const response = await fetch(`http://localhost:3000/api/availability?date=${selectedDate}&duration=${totalDuration}`);
+          const response = await fetch(`${import.meta.env.VITE_API_URL || `${import.meta.env.VITE_API_URL || "http://localhost:3000"}`}/api/availability?date=${selectedDate}&duration=${totalDuration}`);
           if (response.ok) {
             const data = await response.json();
             setAvailableTimes(data.slots || []);
@@ -155,7 +155,7 @@ export default function Booking() {
     setIsSubmitting(true);
 
     try {
-      const clientRes = await fetch("http://localhost:3000/api/clients", {
+      const clientRes = await fetch(`${import.meta.env.VITE_API_URL || "http://localhost:3000"}/api/clients`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ 
@@ -172,7 +172,7 @@ export default function Booking() {
 
       const dateTimeString = `${selectedDate}T${selectedTime}:00`;
 
-      const aptRes = await fetch("http://localhost:3000/api/appointments", {
+      const aptRes = await fetch(`${import.meta.env.VITE_API_URL || "http://localhost:3000"}/api/appointments`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

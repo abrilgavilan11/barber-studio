@@ -23,7 +23,7 @@ export default function ClientManager() {
 
   const fetchClients = async () => {
     try {
-      const response = await fetch("http://localhost:3000/api/clients");
+      const response = await fetch(`${import.meta.env.VITE_API_URL || "http://localhost:3000"}/api/clients`);
       const data = await response.json();
       setClients(data);
     } catch (error) {
@@ -50,7 +50,7 @@ export default function ClientManager() {
   const handleDelete = async (id: string) => {
     if (!window.confirm("¿Seguro que querés eliminar a este cliente?")) return;
     try {
-      const response = await fetch(`http://localhost:3000/api/clients/${id}`, { method: "DELETE" });
+      const response = await fetch(`${import.meta.env.VITE_API_URL || `${import.meta.env.VITE_API_URL || "http://localhost:3000"}`}/api/clients/${id}`, { method: "DELETE" });
       if (response.ok) fetchClients();
     } catch (error) {
       console.error("Error eliminando cliente:", error);
@@ -69,8 +69,8 @@ export default function ClientManager() {
 
     const method = editingClient ? "PUT" : "POST";
     const url = editingClient 
-      ? `http://localhost:3000/api/clients/${editingClient.id}`
-      : "http://localhost:3000/api/clients";
+      ? `${import.meta.env.VITE_API_URL || `${import.meta.env.VITE_API_URL || "http://localhost:3000"}`}/api/clients/${editingClient.id}`
+      : `${import.meta.env.VITE_API_URL || "http://localhost:3000"}/api/clients`;
 
     try {
       const response = await fetch(url, {

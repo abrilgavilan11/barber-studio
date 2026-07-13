@@ -41,7 +41,7 @@ export default function Dashboard() {
 
   const fetchAppointments = async () => {
     try {
-      const response = await fetch("http://localhost:3000/api/appointments");
+      const response = await fetch(`${import.meta.env.VITE_API_URL || "http://localhost:3000"}/api/appointments`);
       if (!response.ok) throw new Error("Error en la respuesta de la API");
       const data = await response.json();
       setAppointments(Array.isArray(data) ? data : []);
@@ -61,7 +61,7 @@ export default function Dashboard() {
 
   const handleConfirm = async (id: string) => {
     try {
-      const response = await fetch(`http://localhost:3000/api/appointments/${id}`, {
+      const response = await fetch(`${import.meta.env.VITE_API_URL || `${import.meta.env.VITE_API_URL || "http://localhost:3000"}`}/api/appointments/${id}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ status: "confirmado" }),
@@ -75,7 +75,7 @@ export default function Dashboard() {
   const handleCancel = async (id: string) => {
     if (!window.confirm("¿Estás seguro de que querés cancelar y eliminar este turno?")) return;
     try {
-      const response = await fetch(`http://localhost:3000/api/appointments/${id}`, {
+      const response = await fetch(`${import.meta.env.VITE_API_URL || `${import.meta.env.VITE_API_URL || "http://localhost:3000"}`}/api/appointments/${id}`, {
         method: "DELETE",
       });
       if (response.ok) fetchAppointments();

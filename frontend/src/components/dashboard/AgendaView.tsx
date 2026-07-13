@@ -63,9 +63,9 @@ export default function AgendaView() {
   const fetchData = async () => {
     try {
       const [aptsRes, clientsRes, servicesRes] = await Promise.all([
-        fetch("http://localhost:3000/api/appointments"),
-        fetch("http://localhost:3000/api/clients"),
-        fetch("http://localhost:3000/api/services")
+        fetch(`${import.meta.env.VITE_API_URL || "http://localhost:3000"}/api/appointments`),
+        fetch(`${import.meta.env.VITE_API_URL || "http://localhost:3000"}/api/clients`),
+        fetch(`${import.meta.env.VITE_API_URL || "http://localhost:3000"}/api/services`)
       ]);
 
       const aptsData = await aptsRes.json();
@@ -120,7 +120,7 @@ export default function AgendaView() {
     };
 
     try {
-      const response = await fetch("http://localhost:3000/api/appointments", {
+      const response = await fetch(`${import.meta.env.VITE_API_URL || "http://localhost:3000"}/api/appointments`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(appointmentData),

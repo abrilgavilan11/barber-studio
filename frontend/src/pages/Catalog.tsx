@@ -20,7 +20,7 @@ export default function Catalog() {
   useEffect(() => {
     const fetchServices = async () => {
       try {
-        const response = await fetch('http://localhost:3000/api/services');
+        const response = await fetch(`${import.meta.env.VITE_API_URL || "http://localhost:3000"}/api/services`);
         if (!response.ok) throw new Error('Error al conectar con la API');
         
         const data = await response.json();

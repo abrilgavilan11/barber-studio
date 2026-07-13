@@ -21,7 +21,7 @@ export default function CategoryManager() {
 
   const fetchCategories = async () => {
     try {
-      const response = await fetch("http://localhost:3000/api/categories");
+      const response = await fetch(`${import.meta.env.VITE_API_URL || "http://localhost:3000"}/api/categories`);
       const data = await response.json();
       setCategories(data);
     } catch (error) {
@@ -49,7 +49,7 @@ export default function CategoryManager() {
     if (!window.confirm("¿Estás seguro de que querés eliminar esta categoría de forma permanente?")) return;
     
     try {
-      const response = await fetch(`http://localhost:3000/api/categories/${id}`, {
+      const response = await fetch(`${import.meta.env.VITE_API_URL || `${import.meta.env.VITE_API_URL || "http://localhost:3000"}`}/api/categories/${id}`, {
         method: "DELETE",
       });
 
@@ -71,8 +71,8 @@ export default function CategoryManager() {
 
     const method = editingCategory ? "PUT" : "POST";
     const url = editingCategory 
-      ? `http://localhost:3000/api/categories/${editingCategory.id}`
-      : "http://localhost:3000/api/categories";
+      ? `${import.meta.env.VITE_API_URL || `${import.meta.env.VITE_API_URL || "http://localhost:3000"}`}/api/categories/${editingCategory.id}`
+      : `${import.meta.env.VITE_API_URL || "http://localhost:3000"}/api/categories`;
 
     try {
       const response = await fetch(url, {

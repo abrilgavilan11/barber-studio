@@ -14,7 +14,7 @@ export default function SettingsManager() {
   useEffect(() => {
     const fetchSettings = async () => {
       try {
-        const response = await fetch("http://localhost:3000/api/settings");
+        const response = await fetch(`${import.meta.env.VITE_API_URL || "http://localhost:3000"}/api/settings`);
         const data = await response.json();
         if (data.bufferTime) {
           setBufferTime(data.bufferTime);
@@ -32,7 +32,7 @@ export default function SettingsManager() {
     e.preventDefault();
     setIsSaving(true);
     try {
-      const response = await fetch("http://localhost:3000/api/settings", {
+      const response = await fetch(`${import.meta.env.VITE_API_URL || "http://localhost:3000"}/api/settings`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ bufferTime })

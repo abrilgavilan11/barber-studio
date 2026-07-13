@@ -23,7 +23,7 @@ export default function AddonManager() {
 
   const fetchAddons = async () => {
     try {
-      const response = await fetch("http://localhost:3000/api/addons");
+      const response = await fetch(`${import.meta.env.VITE_API_URL || "http://localhost:3000"}/api/addons`);
       const data = await response.json();
       setAddons(data);
     } catch (error) {
@@ -51,7 +51,7 @@ export default function AddonManager() {
     if (!window.confirm("¿Estás seguro de que querés eliminar este adicional?")) return;
     
     try {
-      const response = await fetch(`http://localhost:3000/api/addons/${id}`, {
+      const response = await fetch(`${import.meta.env.VITE_API_URL || `${import.meta.env.VITE_API_URL || "http://localhost:3000"}`}/api/addons/${id}`, {
         method: "DELETE",
       });
 
@@ -75,8 +75,8 @@ export default function AddonManager() {
 
     const method = editingAddon ? "PUT" : "POST";
     const url = editingAddon 
-      ? `http://localhost:3000/api/addons/${editingAddon.id}`
-      : "http://localhost:3000/api/addons";
+      ? `${import.meta.env.VITE_API_URL || `${import.meta.env.VITE_API_URL || "http://localhost:3000"}`}/api/addons/${editingAddon.id}`
+      : `${import.meta.env.VITE_API_URL || "http://localhost:3000"}/api/addons`;
 
     try {
       const response = await fetch(url, {
