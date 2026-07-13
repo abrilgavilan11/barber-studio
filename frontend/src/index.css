@@ -1,0 +1,81 @@
+@import './styles/fonts.css';
+@import 'tailwindcss';
+@import './styles/theme.css';
+
+* {
+  font-family: 'Merriweather Sans', sans-serif;
+}
+
+.rbc-today {
+  background-color: #27272a !important;
+}
+
+.rbc-toolbar button {
+  color: #f59e0b !important;
+  border-color: #3f3f46 !important;
+  border-radius: 8px !important;
+  transition: all 0.2s ease !important;
+}
+
+.rbc-toolbar button:hover {
+  background-color: #3f3f46 !important;
+}
+
+.rbc-toolbar button.rbc-active {
+  background-color: #f59e0b !important;
+  color: #18181b !important;
+  border-color: #f59e0b !important;
+  box-shadow: none !important;
+}
+
+.rbc-toolbar button:focus {
+  outline: none !important;
+  box-shadow: 0 0 0 2px #3f3f46 !important;
+}
+
+.rbc-current-time-indicator {
+  background-color: #f59e0b !important;
+}
+
+.rbc-header,
+.rbc-time-view,
+.rbc-time-content,
+.rbc-time-header-content,
+.rbc-timeslot-group,
+.rbc-day-bg,
+.rbc-month-view,
+.rbc-month-row,
+.rbc-time-header.rbc-overflowing {
+  border-color: #3f3f46 !important;
+}
+
+.rbc-header {
+  padding: 8px !important;
+  font-weight: 600 !important;
+  color: #fafafa !important;
+}
+
+@layer utilities {
+  .animate-fade-in-up {
+    animation: fade-in-up 0.6s ease-out forwards;
+  }
+  .animate-pop-in {
+    animation: pop-in 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+  .animate-fade-in {
+    animation: fade-in 0.5s ease-out forwards;
+  }
+}
+
+@keyframes fade-in-up {
+  0% { opacity: 0; transform: translateY(20px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+@keyframes pop-in {
+  0% { opacity: 0; transform: scale(0.95); }
+  100% { opacity: 1; transform: scale(1); }
+}
+@keyframes fade-in {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}
