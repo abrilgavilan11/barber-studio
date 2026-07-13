@@ -36,8 +36,12 @@ export default function FeaturedServices() {
   }, []);
 
   return (
-    <section className="py-16 md:py-24 bg-background border-t border-border">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section className="py-16 md:py-24 bg-background border-t border-border relative overflow-hidden">
+      {/* Decorative gradient blobs for light mode vibes */}
+      <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-primary/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/3 dark:bg-primary/5 pointer-events-none" />
+      <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-primary/10 rounded-full blur-3xl translate-y-1/2 -translate-x-1/3 dark:bg-primary/5 pointer-events-none" />
+      
+      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-12">
           <h2 className="text-3xl sm:text-4xl font-bold text-foreground mb-4">
             Servicios Destacados
@@ -62,7 +66,7 @@ export default function FeaturedServices() {
               return (
                 <div
                   key={service.id}
-                  className="bg-card rounded-2xl p-8 shadow-sm hover:shadow-lg transition-all duration-300 border border-border flex flex-col group animate-fade-in-up hover:-translate-y-1"
+                  className="bg-card/80 backdrop-blur-sm rounded-2xl p-8 shadow-sm hover:shadow-xl hover:shadow-primary/10 transition-all duration-300 border border-border flex flex-col group animate-fade-in-up hover:-translate-y-1"
                   style={{ animationDelay: `${index * 150}ms` }}
                 >
                   <div className="w-12 h-12 bg-secondary rounded-full flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">

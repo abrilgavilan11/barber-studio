@@ -2,6 +2,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Menu, X, Scissors, Lock, LogOut, LayoutDashboard } from "lucide-react";
 import { useState } from "react";
 import { useAuth } from "../context/AuthContext";
+import { ThemeToggle } from "./ThemeToggle";
 
 export default function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -108,6 +109,7 @@ export default function Navbar() {
                 <Lock className="w-4 h-4" />
               </Link>
             )}
+            <ThemeToggle />
           </div>
 
           <button
@@ -145,6 +147,10 @@ export default function Navbar() {
         </div>
         
         <div className="flex flex-col gap-4 p-6 overflow-y-auto">
+          <div className="flex justify-between items-center px-4 py-2 mb-2 border-b border-border/50">
+            <span className="text-sm font-medium text-muted-foreground">Tema</span>
+            <ThemeToggle />
+          </div>
           <Link
             to="/"
             className={`px-4 py-3 rounded-xl transition-colors ${

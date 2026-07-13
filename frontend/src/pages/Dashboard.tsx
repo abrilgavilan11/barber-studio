@@ -23,6 +23,7 @@ import {
 import Title from "../components/ui/Title";
 import Card from "../components/ui/Card";
 import Button from "../components/ui/Button";
+import { ThemeToggle } from "../components/ThemeToggle";
 
 interface Appointment {
   id: string;
@@ -224,6 +225,11 @@ export default function Dashboard() {
             <Settings className="w-5 h-5" />
             <span className="font-medium">Configuración</span>
           </button>
+          
+          <div className="mt-4 pt-4 border-t border-border flex justify-between items-center px-4">
+            <span className="text-sm font-medium text-muted-foreground">Tema</span>
+            <ThemeToggle />
+          </div>
         </nav>
       </aside>
 
