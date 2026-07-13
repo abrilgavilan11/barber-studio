@@ -81,7 +81,7 @@ export default function AdminLogin() {
                   id="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="block w-full pl-10 pr-3 py-3 border-2 border-input rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition-all bg-input-background text-foreground outline-none"
+                  className="block w-full pl-10 pr-3 py-3 border-2 border-input rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition-all bg-input-background text-foreground placeholder:text-muted-foreground outline-none"
                   placeholder="tu@email.com"
                   required
                 />
@@ -101,7 +101,7 @@ export default function AdminLogin() {
                   id="password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="block w-full pl-10 pr-10 py-3 border-2 border-input rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition-all bg-input-background text-foreground outline-none"
+                  className="block w-full pl-10 pr-10 py-3 border-2 border-input rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition-all bg-input-background text-foreground placeholder:text-muted-foreground outline-none"
                   placeholder="••••••••"
                   required
                 />

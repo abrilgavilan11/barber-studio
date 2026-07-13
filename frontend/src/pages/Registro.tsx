@@ -75,7 +75,7 @@ export default function Registro() {
                   type="text"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
-                  className="block w-full pl-10 pr-3 py-3 border-2 border-input rounded-lg focus:ring-2 focus:ring-primary bg-input-background text-foreground outline-none transition-all"
+                  className="block w-full pl-10 pr-3 py-3 border-2 border-input rounded-lg focus:ring-2 focus:ring-primary bg-input-background text-foreground placeholder:text-muted-foreground outline-none transition-all"
                   placeholder="Juan Perez"
                   required
                 />
@@ -92,7 +92,7 @@ export default function Registro() {
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="block w-full pl-10 pr-3 py-3 border-2 border-input rounded-lg focus:ring-2 focus:ring-primary bg-input-background text-foreground outline-none transition-all"
+                  className="block w-full pl-10 pr-3 py-3 border-2 border-input rounded-lg focus:ring-2 focus:ring-primary bg-input-background text-foreground placeholder:text-muted-foreground outline-none transition-all"
                   placeholder="tu@email.com"
                   required
                 />
@@ -109,7 +109,7 @@ export default function Registro() {
                   type="password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="block w-full pl-10 pr-3 py-3 border-2 border-input rounded-lg focus:ring-2 focus:ring-primary bg-input-background text-foreground outline-none transition-all"
+                  className="block w-full pl-10 pr-3 py-3 border-2 border-input rounded-lg focus:ring-2 focus:ring-primary bg-input-background text-foreground placeholder:text-muted-foreground outline-none transition-all"
                   placeholder="••••••••"
                   required
                 />
