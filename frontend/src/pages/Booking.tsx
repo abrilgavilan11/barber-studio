@@ -646,7 +646,6 @@ export default function Booking() {
               variant="outline"
               onClick={handleBack}
               disabled={currentStep === 1 || isSubmitting}
-              className={currentStep === 1 ? "opacity-50 cursor-not-allowed border-gray-300 text-gray-400 hover:bg-transparent hover:text-gray-400" : ""}
             >
               Atrás
             </Button>
