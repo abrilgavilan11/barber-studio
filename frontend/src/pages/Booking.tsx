@@ -45,16 +45,19 @@ export default function Booking() {
   const [addons, setAddons] = useState<Addon[]>([]);
   const [availableTimes, setAvailableTimes] = useState<string[]>([]);
   
+  const [professionals, setProfessionals] = useState<Professional[]>([]);
   const [isLoadingServices, setIsLoadingServices] = useState(true);
   const [isLoadingAddons, setIsLoadingAddons] = useState(true);
   const [isLoadingTimes, setIsLoadingTimes] = useState(false);
+  const [isLoadingProfessionals, setIsLoadingProfessionals] = useState(true);
 
   useEffect(() => {
-    const fetchServicesAndAddons = async () => {
+    const fetchData = async () => {
       try {
-        const [servRes, addRes] = await Promise.all([
+        const [servRes, addRes, profRes] = await Promise.all([
           fetch(`${import.meta.env.VITE_API_URL || "http://localhost:3000"}/api/services`),
-          fetch(`${import.meta.env.VITE_API_URL || "http://localhost:3000"}/api/addons`)
+          fetch(`${import.meta.env.VITE_API_URL || "http://localhost:3000"}/api/addons`),
+          fetch(`${import.meta.env.VITE_API_URL || "http://localhost:3000"}/api/professionals`)
         ]);
         
         if (servRes.ok) {
@@ -73,14 +76,20 @@ export default function Booking() {
           const data = await addRes.json();
           setAddons(data);
         }
+
+        if (profRes.ok) {
+          const data = await profRes.json();
+          setProfessionals(data);
+        }
       } catch (error) {
         console.error("Error trayendo datos:", error);
       } finally {
         setIsLoadingServices(false);
         setIsLoadingAddons(false);
+        setIsLoadingProfessionals(false);
       }
     };
-    fetchServicesAndAddons();
+    fetchData();
   }, []);
 
   const totalDuration = (selectedService?.duration || 0) + selectedAddons.reduce((acc, a) => acc + a.duration, 0);
@@ -107,11 +116,6 @@ export default function Booking() {
       setAvailableTimes([]);
     }
   }, [selectedDate, totalDuration]);
-
-  const professionals: Professional[] = [
-    { id: "1", name: "Nico", specialty: "Especialista en Cortes Clásicos y Fade" },
-    { id: "2", name: "Cualquier Profesional / Barbero", specialty: "Primer turno disponible" },
-  ];
 
   const generateDates = () => {
     const dates = [];
@@ -483,9 +487,19 @@ export default function Booking() {
                 </div>
                 <Title level={2} className="!mb-0">Elegí la Profesional / Barbero</Title>
               </div>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {professionals.map((professional) => (
-                  <button
+
+              {isLoadingProfessionals ? (
+                <div className="h-64 flex flex-col items-center justify-center text-primary/80">
+                  <Loader2 className="w-10 h-10 animate-spin mb-4" />
+                </div>
+              ) : professionals.length === 0 ? (
+                <div className="h-64 flex flex-col items-center justify-center text-primary/80 text-center">
+                  <p className="font-medium text-muted-foreground">No hay profesionales disponibles en este momento.</p>
+                </div>
+              ) : (
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  {professionals.map((professional) => (
+                    <button
                     key={professional.id}
                     onClick={() => setSelectedProfessional(professional)}
                     className={`p-5 rounded-xl border-2 text-left transition-all cursor-pointer ${
@@ -494,13 +508,14 @@ export default function Booking() {
                         : "border-border hover:border-primary/50 hover:shadow-sm"
                     }`}
                   >
-                    <h3 className="font-bold text-foreground mb-1 text-lg">
-                      {professional.name}
-                    </h3>
-                    <p className="text-sm text-muted-foreground">{professional.specialty}</p>
-                  </button>
-                ))}
-              </div>
+                      <h3 className="font-bold text-foreground mb-1 text-lg">
+                        {professional.name}
+                      </h3>
+                      <p className="text-sm text-muted-foreground">{professional.specialty}</p>
+                    </button>
+                  ))}
+                </div>
+              )}
             </div>
           )}
 
