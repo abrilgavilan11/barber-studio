@@ -5,6 +5,7 @@ export interface IUser extends Document {
   email: string;
   password?: string;
   role: string;
+  isBarber?: boolean;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -12,7 +13,8 @@ const UserSchema = new Schema<IUser>({
   name: { type: String, required: true },
   email: { type: String, required: true, unique: true },
   password: { type: String },
-  role: { type: String, default: "cliente" }
+  role: { type: String, default: "cliente" },
+  isBarber: { type: Boolean, default: false }
 }, { timestamps: true });
 export const UserModel = mongoose.model<IUser>('User', UserSchema);
 
@@ -66,13 +68,15 @@ export interface IProfessional extends Document {
   name: string;
   specialty: string;
   status: string;
+  userId?: mongoose.Types.ObjectId;
   createdAt: Date;
   updatedAt: Date;
 }
 const ProfessionalSchema = new Schema<IProfessional>({
   name: { type: String, required: true },
   specialty: { type: String, required: true },
-  status: { type: String, default: "activo" }
+  status: { type: String, default: "activo" },
+  userId: { type: Schema.Types.ObjectId, ref: 'User', unique: true, sparse: true }
 }, { timestamps: true });
 export const ProfessionalModel = mongoose.model<IProfessional>('Professional', ProfessionalSchema);
 

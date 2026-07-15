@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Shield, User, ShieldAlert } from "lucide-react";
+import { Shield, User, ShieldAlert, Scissors } from "lucide-react";
 import Card from "../ui/Card";
 import Button from "../ui/Button";
 
@@ -8,6 +8,7 @@ interface AppUser {
   name: string;
   email: string;
   role: string;
+  isBarber?: boolean;
   createdAt: string;
 }
 
@@ -32,6 +33,24 @@ export default function UserManager() {
   useEffect(() => {
     fetchUsers();
   }, []);
+
+  const handleBarberToggle = async (userId: string, currentIsBarber: boolean) => {
+    try {
+      const response = await fetch(`${import.meta.env.VITE_API_URL || "http://localhost:3000"}/api/users/${userId}/barber`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ isBarber: !currentIsBarber }),
+      });
+
+      if (response.ok) {
+        fetchUsers();
+      } else {
+        alert("Hubo un error al actualizar el estado de barbero.");
+      }
+    } catch (error) {
+      console.error("Error al actualizar estado de barbero:", error);
+    }
+  };
 
   const handleRoleChange = async (userId: string, newRole: string) => {
     if (!window.confirm(`¿Seguro que querés cambiar el rol a ${newRole.toUpperCase()}?`)) return;
@@ -70,19 +89,20 @@ export default function UserManager() {
                 <th className="p-4 font-semibold">Usuario</th>
                 <th className="p-4 font-semibold">Email</th>
                 <th className="p-4 font-semibold">Rol Actual</th>
+                <th className="p-4 font-semibold text-center">¿Es Barbero?</th>
                 <th className="p-4 font-semibold text-right">Cambiar Rol</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-border">
               {isLoading ? (
                 <tr>
-                  <td colSpan={4} className="p-8 text-center text-muted-foreground animate-pulse">
+                  <td colSpan={5} className="p-8 text-center text-muted-foreground animate-pulse">
                     Cargando usuarios...
                   </td>
                 </tr>
               ) : users.length === 0 ? (
                 <tr>
-                  <td colSpan={4} className="p-8 text-center text-muted-foreground">
+                  <td colSpan={5} className="p-8 text-center text-muted-foreground">
                     No hay usuarios registrados.
                   </td>
                 </tr>
@@ -93,7 +113,10 @@ export default function UserManager() {
                       <div className={`p-2 rounded-full ${user.role === 'admin' ? 'bg-amber-100 text-amber-600' : 'bg-rose-100 text-rose-600'}`}>
                         {user.role === 'admin' ? <Shield className="w-4 h-4" /> : <User className="w-4 h-4" />}
                       </div>
-                      {user.name}
+                      <div className="flex items-center gap-2">
+                        {user.name}
+                        {user.isBarber && <Scissors className="w-4 h-4 text-primary" title="Barbero activo" />}
+                      </div>
                     </td>
                     <td className="p-4 text-gray-600">{user.email}</td>
                     <td className="p-4">
@@ -104,6 +127,21 @@ export default function UserManager() {
                       }`}>
                         {user.role}
                       </span>
+                    </td>
+                    <td className="p-4 text-center">
+                      {user.role === 'admin' ? (
+                        <label className="relative inline-flex items-center cursor-pointer">
+                          <input 
+                            type="checkbox" 
+                            className="sr-only peer" 
+                            checked={!!user.isBarber}
+                            onChange={() => handleBarberToggle(user.id, !!user.isBarber)}
+                          />
+                          <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
+                        </label>
+                      ) : (
+                        <span className="text-muted-foreground text-sm">-</span>
+                      )}
                     </td>
                     <td className="p-4 text-right">
                       {user.role === 'admin' ? (

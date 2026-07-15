@@ -11,7 +11,16 @@ import {
 
 const MONGODB_URI = process.env.MONGODB_URI || process.env.MONGO_URI || "mongodb://localhost:27017/barber-studio";
 mongoose.connect(MONGODB_URI)
-  .then(() => console.log("🟢 Conectado a MongoDB"))
+  .then(async () => {
+    console.log("🟢 Conectado a MongoDB");
+    const count = await ProfessionalModel.countDocuments();
+    if (count === 0) {
+      await ProfessionalModel.create([
+        { name: "Cualquier Profesional / Barbero", specialty: "Primer turno disponible" }
+      ]);
+      console.log("🔵 Profesionales por defecto creados.");
+    }
+  })
   .catch(err => console.error("🔴 Error conectando a MongoDB:", err));
 
 const app = express();
@@ -526,7 +535,7 @@ app.post("/api/auth/login", async (req: Request, res: Response): Promise<any> =>
 
 app.get("/api/users", async (req: Request, res: Response) => {
   try {
-    const users = await UserModel.find().select('name email role createdAt').sort({ createdAt: 1 });
+    const users = await UserModel.find().select('name email role isBarber createdAt').sort({ createdAt: 1 });
     res.json(users.map(u => ({ ...u.toObject(), id: u._id })));
   } catch (error) {
     res.status(500).json({ error: "Error al cargar los usuarios" });
@@ -546,6 +555,37 @@ app.put("/api/users/:id/role", async (req: Request, res: Response): Promise<any>
     res.json({ message: "Rol actualizado", data: updatedUser });
   } catch (error) {
     res.status(500).json({ error: "No se pudo actualizar el rol" });
+  }
+});
+
+app.put("/api/users/:id/barber", async (req: Request, res: Response): Promise<any> => {
+  try {
+    const { id } = req.params;
+    const { isBarber } = req.body;
+    
+    const user = await UserModel.findByIdAndUpdate(id, { isBarber }, { new: true });
+    if (!user) return res.status(404).json({ error: "Usuario no encontrado" });
+
+    if (isBarber) {
+      let prof = await ProfessionalModel.findOne({ userId: user._id });
+      if (!prof) {
+        await ProfessionalModel.create({
+          name: user.name,
+          specialty: "Barbero de Barber Studio",
+          status: "activo",
+          userId: user._id
+        });
+      } else {
+        await ProfessionalModel.findByIdAndUpdate(prof._id, { status: "activo", name: user.name });
+      }
+    } else {
+      await ProfessionalModel.findOneAndUpdate({ userId: user._id }, { status: "inactivo" });
+    }
+
+    res.json({ message: "Estado de barbero actualizado", data: user });
+  } catch (error) {
+    console.error("Error actualizando estado de barbero:", error);
+    res.status(500).json({ error: "No se pudo actualizar el estado de barbero" });
   }
 });
 
