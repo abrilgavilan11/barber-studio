@@ -186,7 +186,7 @@ export default function AddonManager() {
           
           <div>
             <Label>Nombre del Adicional</Label>
-            <Input name="name" type="text" defaultValue={editingAddon?.name} placeholder="Ej: Retiro de Acrílico" required />
+            <Input name="name" type="text" defaultValue={editingAddon?.name} placeholder="Ej: Línea en Cejas" required />
           </div>
           
           <div className="grid grid-cols-2 gap-4">
