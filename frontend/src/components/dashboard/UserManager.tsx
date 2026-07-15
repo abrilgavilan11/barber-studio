@@ -115,7 +115,7 @@ export default function UserManager() {
                       </div>
                       <div className="flex items-center gap-2">
                         {user.name}
-                        {user.isBarber && <Scissors className="w-4 h-4 text-primary" title="Barbero activo" />}
+                        {user.isBarber && <span title="Barbero activo"><Scissors className="w-4 h-4 text-primary" /></span>}
                       </div>
                     </td>
                     <td className="p-4 text-gray-600">{user.email}</td>
