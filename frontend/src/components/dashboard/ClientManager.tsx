@@ -117,7 +117,7 @@ export default function ClientManager() {
         </div>
         <Button className="flex items-center gap-2" onClick={openCreateModal}>
           <Plus className="w-5 h-5" />
-          Nueva cliente
+          Nuevo Cliente
         </Button>
       </div>
 
