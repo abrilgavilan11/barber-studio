@@ -180,7 +180,8 @@ export default function Booking() {
           serviceId: selectedService?.id,
           addonIds: selectedAddons.map(a => a.id),
           date: dateTimeString,
-          status: "pendiente"
+          status: "pendiente",
+          professionalId: selectedProfessional?.id
         }),
       });
 
