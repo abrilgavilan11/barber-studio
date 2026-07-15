@@ -9,7 +9,7 @@ import {
   AddonModel, SettingModel, AppointmentModel, ProfessionalModel
 } from "./models/index.js";
 
-const MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost:27017/barber-studio";
+const MONGODB_URI = process.env.MONGODB_URI || process.env.MONGO_URI || "mongodb://localhost:27017/barber-studio";
 mongoose.connect(MONGODB_URI)
   .then(() => console.log("🟢 Conectado a MongoDB"))
   .catch(err => console.error("🔴 Error conectando a MongoDB:", err));
