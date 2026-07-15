@@ -188,6 +188,7 @@ app.get("/api/services", async (_req: Request, res: Response) => {
       return { ...doc, id: doc._id, categoryId: doc.category?._id || doc.category };
     }));
   } catch (error) {
+    console.error("Error en GET /api/services:", error);
     res.status(500).json({ error: "Hubo un problema al cargar los servicios" });
   }
 });
@@ -493,6 +494,7 @@ app.post("/api/auth/register", async (req: Request, res: Response): Promise<any>
       clientId: newClient?._id
     });
   } catch (error) {
+    console.error("Error en POST /api/auth/register:", error);
     res.status(500).json({ error: "Error al registrar el usuario" });
   }
 });
@@ -517,6 +519,7 @@ app.post("/api/auth/login", async (req: Request, res: Response): Promise<any> =>
       role: user.role
     });
   } catch (error) {
+    console.error("Error en POST /api/auth/login:", error);
     res.status(500).json({ error: "Error al iniciar sesión" });
   }
 });
